@@ -19,25 +19,25 @@ jobs:
             --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/projects \
             --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
             --header 'accept: application/json' \
-            --header 'content-type: application/json'
+            --header 'content-type: application/json' \
             --data '{"name":"${{ env.RELEASE_VERSION }}"}' >> project.json
           cat project.json
         
-      - name: REST API create a flag
-        run: |
-          curl --request POST \
-            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/flags \
-            --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
-            --header 'accept: application/json' \
-            --header 'content-type: application/json' \
-            --data '
-            {
-                "name": "${{ env.RELEASE_VERSION }}",
-                "description": "${{ env.RELEASE_VERSION }}",
-                "type": "boolean",
-                "source": "manual"
-            }
-            ' 
+      # - name: REST API create a flag
+      #   run: |
+      #     curl --request POST \
+      #       --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/flags \
+      #       --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+      #       --header 'accept: application/json' \
+      #       --header 'content-type: application/json' \
+      #       --data '
+      #       {
+      #           "name": "${{ env.RELEASE_VERSION }}",
+      #           "description": "${{ env.RELEASE_VERSION }}",
+      #           "type": "boolean",
+      #           "source": "manual"
+      #       }
+      #       ' 
           
         
       # - name: REST API create a campaign
