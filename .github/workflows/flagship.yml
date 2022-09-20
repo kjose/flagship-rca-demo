@@ -1,0 +1,56 @@
+name: "Create a new Flagship campaign"
+ 
+on:
+  push:
+    tags:
+      - '**'
+ 
+jobs:
+  flagship:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env tag version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        
+      - name: REST API create a project
+        run: |
+          curl --request POST \
+          --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/projects \
+          --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+          --header 'accept: application/json' \
+          --header 'content-type: application/json'
+          --data '{"name":"${{ env.RELEASE_VERSION }}"}'
+        
+      - name: REST API create a flag
+        run: |
+          curl --request POST \
+          --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/flags \
+          --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+          --header 'accept: application/json' \
+          --header 'content-type: application/json' \
+          --data '
+          {
+              "name": "${{ env.RELEASE_VERSION }}",
+              "description": "${{ env.RELEASE_VERSION }}",
+              "type": "boolean",
+              "source": "manual"
+          }
+          ' >> project.json
+          cat project.json
+        
+      # - name: REST API create a campaign
+      #   run: |
+      #     curl --request POST \
+      #     --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/flags \
+      #     --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+      #     --header 'accept: application/json' \
+      #     --header 'content-type: application/json' \
+      #     --data '
+      #     {
+      #         "name": "${{ env.RELEASE_VERSION }}",
+      #         "description": "${{ env.RELEASE_VERSION }}",
+      #         "type": "boolean",
+      #         "source": "manual"
+      #     }
+      #     '
