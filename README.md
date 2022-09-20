@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Flagship - Remote control api - Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a demo app to show how to use the remote control api to automate flags and campaigns creation.
 
-## Available Scripts
+It uses the tag version on github to create a new project called `{TAG_VERSION}` and a new campaign `{TAG_VERSION}`.
+It automatically creates a flag called `{TAG_VERSION}` too.
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+- Create a remote control api client and token with scopes `campaign.create`, `flag.create`, `project.create` in the platform.
+- Add the github secret environment variables in settings : 
+    - `FS_TOKEN`: The remote api control token you created
+    - `FS_ACCOUNT_ID`: Your account id 
+    - `FS_ENV_ID`: Your environment id 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Add in your code the flag condition (use the SDK or api you want)
 
-### `npm test`
+```
+    const feature1_0_1_enabled = useFsFlag("1.0.1",false);
+    ...
+    <div className="features">
+        {feature1_0_1_enabled.getValue() && <span>Feature 1.0.1</span>}
+    </div>
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Commit and tag your project (use the version as the tag name)
 
-### `npm run build`
+```
+git tag 1.0.1
+git push origin 1.0.1
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Check your flagship account, and when done, you can go live your test it will be created in the project `1.0.1`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Go further
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you want to adapt the behavior of how projects, flags and campaigns are created, you can edit the github action file in `.github/workflows/flagship.yml`

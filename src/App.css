@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.features {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.features span {
+  background: red;
+  border-radius: 10px;
+  padding: 2px 5px;
+  margin: 2px 5px;
+}
+
+.features span:nth-child(1) {
+  background: green;
+}
+
+.features span:nth-child(2) {
+  background: violet;
+}
+
+.features span:nth-child(3) {
+  background: yellow;
+  color: black;
+}

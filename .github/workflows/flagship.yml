@@ -1,0 +1,75 @@
+name: "Flagship - Create a new campaign"
+ 
+on:
+  push:
+    tags:
+      - '**'
+ 
+jobs:
+  flagship:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env tag version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        
+      - name: REST API create a project
+        run: |
+          curl --request POST \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/projects \
+            --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json' \
+            --data '{"name":"${{ env.RELEASE_VERSION }}"}' >> project.json
+          cat project.json
+
+      - name: Add project_id to env variables
+        run: echo "PROJECT_ID=`jq -r .id project.json`" >> $GITHUB_ENV
+        
+      - name: REST API create a flag
+        run: |
+          curl --request POST \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/flags \
+            --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json' \
+            --data '
+            {
+                "name": "${{ env.RELEASE_VERSION }}",
+                "description": "${{ env.RELEASE_VERSION }}",
+                "type": "boolean",
+                "source": "manual"
+            }
+            '
+        
+      - name: REST API create a campaign
+        run: |
+          curl --request POST \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns \
+            --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json' \
+            --data '
+            {
+                "variation_groups": [
+                      {
+                          "variations": [
+                                {
+                                    "name": "v1",
+                                    "allocation": 100,
+                                    "modifications": {
+                                          "value": {
+                                              "${{ env.RELEASE_VERSION }}": true
+                                          },
+                                          "type": "FLAG"
+                                    }
+                                }
+                          ]
+                      }
+                ],
+                "project_id": "${{ env.PROJECT_ID }}",
+                "name": "${{ env.RELEASE_VERSION }}",
+                "description": "${{ env.RELEASE_VERSION }}",
+                "type": "toggle"
+            }
+            ' 
