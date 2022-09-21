@@ -35,6 +35,6 @@ jobs:
             --header 'content-type: application/json' \
             --data '
             {
-                "state": "paused",
+                "state": "paused"
             }
             '

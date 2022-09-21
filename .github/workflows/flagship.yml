@@ -86,6 +86,6 @@ jobs:
             --header 'content-type: application/json' \
             --data '
             {
-                "state": "active",
+                "state": "active"
             }
             '
