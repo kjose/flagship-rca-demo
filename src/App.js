@@ -12,8 +12,6 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <div className="features">
           {feature1_0_0_enabled.getValue() && <span>Feature 1.0.0</span>}
-        </div>
-        <div className="features">
           {feature1_0_1_enabled.getValue() && <span>Feature 1.0.1</span>}
         </div>
         <a
