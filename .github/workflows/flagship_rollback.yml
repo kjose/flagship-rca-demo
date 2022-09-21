@@ -29,7 +29,7 @@ jobs:
       - name: REST API pause campaign
         run: |
           curl --request PATCH \
-            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns/${{ env.CAMPAIGN_ID }} \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns/${{ env.CAMPAIGN_ID }}/toggle \
             --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
             --header 'accept: application/json' \
             --header 'content-type: application/json' \
