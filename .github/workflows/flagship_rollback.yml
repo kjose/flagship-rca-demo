@@ -20,7 +20,6 @@ jobs:
             --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
             --header 'accept: application/json' \
             --header 'content-type: application/json' >> campaigns.json
-          cat campaigns.json
 
       - name: Parse json campaigns to get id of campaigns where modification taf is present
         run: |

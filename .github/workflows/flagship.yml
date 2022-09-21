@@ -21,7 +21,6 @@ jobs:
             --header 'accept: application/json' \
             --header 'content-type: application/json' \
             --data '{"name":"${{ env.RELEASE_VERSION }}"}' >> project.json
-          cat project.json
 
       - name: Add project_id to env variables
         run: echo "PROJECT_ID=`jq -r .id project.json`" >> $GITHUB_ENV
