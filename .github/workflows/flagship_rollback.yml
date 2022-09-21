@@ -9,7 +9,7 @@ jobs:
   flagship:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ref - {{ github.event.ref }}
+      - run: echo "ref - {{ github.event.ref }}"
 
       - uses: actions/checkout@v2
         
