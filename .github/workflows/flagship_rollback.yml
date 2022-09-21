@@ -9,11 +9,9 @@ jobs:
   flagship:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Action ref - $GITHUB_REF"
+      - run: echo ref - {{ github.event.ref }}
 
       - uses: actions/checkout@v2
-      - name: Set env tag version
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         
       - name: REST API get list of campaigns
         run: |
@@ -25,7 +23,7 @@ jobs:
 
       - name: Parse json campaigns to get id of campaigns where modification taf is present
         run: |
-          echo "CAMPAIGN_ID=`jq -r '.items[] | select(.variation_groups[] .variations[] .modifications .value[] as $k | $k == \"${{ env.RELEASE_VERSION }}\") .id' campaigns.json | uniq -u`" >> $GITHUB_ENV
+          echo "CAMPAIGN_ID=`jq -r '.items[] | select(.variation_groups[] .variations[] .modifications .value[] as $k | $k == \"${{ github.event.ref }}\") .id' campaigns.json | uniq -u`" >> $GITHUB_ENV
 
       - name: REST API pause campaign
         run: |
