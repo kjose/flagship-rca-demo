@@ -16,7 +16,7 @@ jobs:
       - name: REST API get list of campaigns
         run: |
           curl --request GET \
-            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns?_max_per_page=9999 \
             --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
             --header 'accept: application/json' \
             --header 'content-type: application/json' >> campaigns.json
