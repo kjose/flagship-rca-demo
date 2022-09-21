@@ -24,4 +24,17 @@ jobs:
 
       - name: Parse json campaigns to get id of campaigns where modification taf is present
         run: |
-          jq -r '.items[] | select(.variation_groups[] .variations[] .modifications .value[] as $k | $k == "1.1") .id' campaigns.json | uniq -u
+          echo "CAMPAIGN_ID=`jq -r '.items[] | select(.variation_groups[] .variations[] .modifications .value[] as $k | $k == \"1.1\") .id' campaigns.json | uniq -u`" >> $GITHUB_ENV
+
+      - name: REST API pause campaign
+        run: |
+          curl --request PATCH \
+            --url https://api.flagship.io/v1/accounts/${{ secrets.FS_ACCOUNT_ID }}/account_environments/${{ secrets.FS_ENV_ID }}/campaigns/${{ env.CAMPAIGN_ID }} \
+            --header 'Authorization: Bearer ${{ secrets.FS_TOKEN }}' \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json' \
+            --data '
+            {
+                "state": "paused",
+            }
+            '
