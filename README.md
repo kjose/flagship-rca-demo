@@ -5,6 +5,8 @@ This project is a demo app to show how to use the remote control api to automate
 It uses the tag version on github to create a new project called `{TAG_VERSION}` and a new campaign `{TAG_VERSION}`.
 It automatically creates a flag called `{TAG_VERSION}` too.
 
+Site here : https://flagship-rca-demo.netlify.app/
+
 ## Prerequisites
 
 - Create a remote control api client and token with scopes `campaign.create`, `flag.create`, `project.create` in the platform.
@@ -13,7 +15,14 @@ It automatically creates a flag called `{TAG_VERSION}` too.
     - `FS_ACCOUNT_ID`: Your account id 
     - `FS_ENV_ID`: Your environment id 
 
-## How to
+## Start the project
+
+```
+npm install
+npm start
+```
+
+## How to add a new flag
 
 1. Add in your code the flag condition (use the SDK or api you want)
 
