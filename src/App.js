@@ -3,20 +3,14 @@ import './App.css';
 import { useFsFlag } from "@flagship.io/react-sdk";
 
 function App() {
-  const feature0_1_enabled = useFsFlag("0.1",false);
   const feature1_0_0_enabled = useFsFlag("1.0.0",false);
-  const feature1_0_1_enabled = useFsFlag("1.0.1",false);
-  const feature1_0_6_enabled = useFsFlag("1.0.6",false);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <div className="features">
-          {feature0_1_enabled.getValue() && <span>Feature 0.1.0</span>}
           {feature1_0_0_enabled.getValue() && <span>Feature 1.0.0</span>}
-          {feature1_0_1_enabled.getValue() && <span>Feature 1.0.1</span>}
-          {feature1_0_6_enabled.getValue() && <span>Feature 1.0.6</span>}
         </div>
         <a
           className="App-link"
