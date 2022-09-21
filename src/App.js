@@ -5,6 +5,7 @@ import { useFsFlag } from "@flagship.io/react-sdk";
 function App() {
   const feature1_0_0_enabled = useFsFlag("1.0.0",false);
   const feature1_0_1_enabled = useFsFlag("1.0.1",false);
+  const feature1_0_2_enabled = useFsFlag("1.0.2",false);
 
   return (
     <div className="App">
@@ -13,6 +14,7 @@ function App() {
         <div className="features">
           {feature1_0_0_enabled.getValue() && <span>Feature 1.0.0</span>}
           {feature1_0_1_enabled.getValue() && <span>Feature 1.0.1</span>}
+          {feature1_0_2_enabled.getValue() && <span>Feature 1.0.2</span>}
         </div>
         <a
           className="App-link"
