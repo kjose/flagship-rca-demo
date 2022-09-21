@@ -21,3 +21,7 @@ jobs:
             --header 'accept: application/json' \
             --header 'content-type: application/json' >> campaigns.json
           cat campaigns.json
+
+      - name: Parse json campaigns to get id of campaigns where modification taf is present
+        run: |
+          jq -r '.items[] | select(.variation_groups[] .variations[] .modifications .value[] as $k | $k == "1.1") .id' campaigns.json | uniq -u
